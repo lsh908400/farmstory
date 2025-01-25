@@ -7,7 +7,7 @@
 - ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=flat-square&logo=javascript&logoColor=%23F7DF1E)
 - ![JPA](https://img.shields.io/badge/JPA-%236DB33F.svg?style=flat-square&logoColor=white)
 - ![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?style=flat-square&logo=mysql&logoColor=white)
-- ![Redis](https://img.shields.io/badge/Redis-%23DD0031.svg?style=flat-square&logo=redis&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat-square&logo=mongodb&logoColor=white)
+- ![Redis](https://img.shields.io/badge/Redis-%23DD0031.svg?style=flat-square&logo=redis&logoColor=white) 
 - ![Git](https://img.shields.io/badge/git-E44C30?style=flat-square&logo=git&logoColor=white)
 - ![Github Action](https://img.shields.io/badge/Github%20Action-121013?style=flat-square&logo=github&logoColor=white) ![AWS](https://img.shields.io/badge/AmazonAWS-%23FF9900.svg?style=flat-square&logo=amazon-aws&logoColor=white)
   
