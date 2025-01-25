@@ -1,0 +1,29 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>접속차단</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+    <th:block th:fragment="script">
+        <script src="/js/axios.min.js"></script>
+    </th:block>
+</head>
+<body>
+<div class="container">
+    <header th:replace="layout/header.html"></header>
+    <main>
+        <div class="error-page">
+            <div class="page-flex">
+                <p>운영정책 위반으로 접속이 차단되었습니다.</p>
+
+                <div class="page-link">
+                    <a href="/auth/user/logout">홈으로>></a>
+                </div>
+            </div>
+        </div>
+        <img class="error-img" th:src="@{/images/merong.png}">
+    </main>
+    <footer th:replace="layout/footer.html"></footer>
+</div>
+</body>
+</html>

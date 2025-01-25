@@ -1,0 +1,148 @@
+section {
+    width: 600px;
+    height: 286px;
+    position: relative;
+    margin: 100px auto;
+}
+
+.h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+form > h6 {
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.border-div{
+    border-top: 2px solid black;
+}
+
+.section1 table {
+    width: 100%;
+    height: 136.5px;
+    border-collapse: collapse;
+}
+
+.section1 td {
+    border: 3px solid #5050501a;
+    border-top: none;
+    box-sizing: border-box;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.form__input {
+    width: 164px;
+    height: 24px;
+    background: #f7f7f7;
+    border: 1px solid #e4eaec;
+    box-sizing: border-box;
+    padding-left: 6px;
+    font-size: 14px;
+    outline: none;
+
+    &::placeholder {
+        color: #757575;
+        font-size: 12px;
+    }
+}
+
+.form__button {
+    height: 27px;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid #bebebe;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.form__button:hover {
+    opacity: 0.6;
+}
+
+.description {
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.action-button-group {
+    display: flex;
+    justify-content: end;
+    gap: 3px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.action-button-group__button {
+    height: 35px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    border: 2px solid #bebebe;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgb(228, 228, 228);
+    }
+}
+
+#error-email ,#error-name, #error-code, #error-verify{
+    color : red;
+    margin-left: 5px;
+    margin-top: 5px;
+    font-size: 10px;
+    display: none;
+}
+
+#success-email , #success-name , #success-code{
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 10px;
+    display: none;
+}
+
+#timer {
+    display: none;
+}
+
+.section2 {
+    display: none;
+    /*border-top: 2px solid black;*/
+}
+
+.section1 {
+    /*display: none;*/
+}
+
+.section2 table {
+    border-collapse: collapse;
+
+}
+
+.section2 tr {
+
+    height: 50px;
+}
+
+.section2 td, .section2 th {
+    border: 3px solid #5050501a;
+}
+
+.section2 th {
+    width: 120px;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.section2 td {
+    width: 480px;
+    padding-left: 15px;
+}

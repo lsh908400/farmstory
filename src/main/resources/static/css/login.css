@@ -1,0 +1,199 @@
+body {
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    margin: 0 auto;
+}
+
+.box{
+    border: 1px solid #BEBEBE;
+    margin: 0 auto;
+    width: 372px;
+    /*height: 240px;*/
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.contain {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.section-login #input-container {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-top: 30px;
+    padding-bottom: 15px;
+}
+
+.error-text{
+    color: red;
+    margin-top: 30px;
+}
+
+.section-login .input-group {
+    display: flex;
+    /*width: 190px;*/
+    height: 28px;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.section-login img {
+    margin-right: 10px;
+}
+
+.section-login input[type="text"], .section-login input[type="password"] {
+    flex: 1;
+    height: 30px; /*고정값*/
+    padding: 0 10px;
+    border: 1px solid #BEBEBE;
+    box-sizing: border-box;
+}
+
+.section-login input[type="submit"] {
+    width: 60px;  /*고정값*/
+    height: 67px; /*고정값*/
+    background: #FDFDFD;
+    border: 1px solid #BEBEBE;
+    cursor: pointer;
+    box-sizing: border-box;
+    align-self: flex-start;
+    margin-left: 10px;
+}
+
+.section-login button {
+    width: 60px;  /*고정값*/
+    height: 67px; /*고정값*/
+    background: #FDFDFD;
+    border: 1px solid #BEBEBE;
+    cursor: pointer;
+    box-sizing: border-box;
+    align-self: flex-start;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selction-info {
+    display: block;
+    color: #666;
+    height: 104px;
+    box-sizing: border-box;
+    background-color: #F5F6FA;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.selction-info p {
+    padding-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+.selction-info__link {
+    text-align: right;
+    margin-right: 10px;
+}
+
+
+.selction-info a {
+    color: #007BFF;
+}
+
+/*.google {*/
+/*    !*width: 60%;*!*/
+/*    width: 40px;*/
+/*    !*margin: 0 auto;*!*/
+/*    margin-bottom: 20px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    background-color: #eb4235;*/
+/*    border: 2px solid rgba(0,0,0,0.1);*/
+/*    color: white;*/
+/*    border-radius: 30px;*/
+/*    height: 30px;*/
+/*    font-size: 11px;*/
+/*    font-weight: 600;*/
+/*}*/
+
+/*.kaokao {*/
+/*    width: 40px;*/
+/*    !*margin: 0 auto;*!*/
+/*    margin-bottom: 20px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    background-color: #f6de00;*/
+/*    border: 2px solid rgba(0,0,0,0.1);*/
+/*    color: black;*/
+/*    border-radius: 30px;*/
+/*    height: 30px;*/
+/*    font-size: 11px;*/
+/*    font-weight: 600;*/
+/*}*/
+
+/*.naver {*/
+/*    width: 40px;*/
+/*    !*margin: 0 auto;*!*/
+/*    margin-bottom: 20px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    background-color: #02c55b;*/
+/*    border: 2px solid rgba(0,0,0,0.1);*/
+/*    color: white;*/
+/*    border-radius: 30px;*/
+/*    height: 30px;*/
+/*    font-size: 11px;*/
+/*    font-weight: 600;*/
+/*}*/
+
+/*.social-flex{*/
+/*    display: flex;*/
+/*    gap: 40px;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.h1 {*/
+/*    text-align: center;*/
+/*    width: 100%;*/
+/*    margin-bottom: 10px;*/
+/*    font-size: 15px;*/
+/*    font-weight: 600;*/
+/*    color: #6a6a6a;*/
+/*}*/
+
+.social-flex {
+    display: flex;
+    flex-direction: row; /* 가로 방향으로 배치 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.h1 {
+    font-size: 15px; /* 제목 크기 */
+    margin-bottom: 5px; /* 제목과 버튼 사이 여백 */
+    text-align: center; /* 제목 중앙 정렬 */
+    color: #333; /* 제목 색상 */
+    margin-right: 60px; /* 제목과 버튼 사이 여백 (예: 15px로 증가) */
+}
+
+.social-login {
+    display: inline-block;
+
+    transition: transform 0.2s; /* 버튼에 호버 효과 추가 */
+}
+
+.social-login img {
+    width: 25px; /* 아이콘 크기 */
+    height: auto; /* 비율 유지 */
+}

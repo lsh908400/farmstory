@@ -1,0 +1,29 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>에러</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+    <th:block th:fragment="script">
+        <script src="/js/axios.min.js"></script>
+    </th:block>
+</head>
+<body>
+<div class="container">
+    <header th:replace="layout/header.html"></header>
+    <main>
+        <div class="error-page">
+            <div class="page-flex">
+                <p>회원 탈퇴 처리중입니다. <br> 일주일 이내에 탈퇴 취소가 가능 합니다.</p>
+
+                <div class="page-link">
+                    <a href="/auth/withdrawal">탈퇴 취소하기>></a>
+                </div>
+            </div>
+        </div>
+        <img class="error-img" th:src="@{/images/merong.png}">
+    </main>
+    <footer th:replace="layout/footer.html"></footer>
+</div>
+</body>
+</html>

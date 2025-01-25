@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Hello Page</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+<div class="container">
+    <header th:replace="layout/header.html"></header>
+    <main>
+        <div class="slider">
+            <ul>
+                <li><img th:src="@{/images/main_slide_img1.jpg}" alt="슬라이더1"></li>
+                <li><img th:src="@{/images/main_slide_img2.jpg}" alt="슬라이더2"></li>
+                <li><img th:src="@{/images/main_slide_img3.jpg}" alt="슬라이더3"></li>
+            </ul>
+
+            <img th:src="@{/images/main_slide_img_tit.png}" alt="사람과 자연을 사랑하는 팜스토리" />
+
+            <div class="banner">
+                <img th:src="@{/images/main_banner_txt.png}" alt="GRAND OPEN" /> <img
+                    th:src="@{/images/main_banner_tit.png}" alt="팜스토리 오픈기념 30% 할인 이벤트" /> <img
+                    th:src="@{/images/main_banner_img.png}" alt="과일" />
+            </div>
+        </div>
+
+        <div class="quick">
+            <a href="/client/boards?section=community&type=menu"><img th:src="@{/images/main_banner_sub1_tit.png}" alt="오늘의 식단"></a>
+            <a href="/client/boards?section=community&type=chef"><img th:src="@{/images/main_banner_sub2_tit.png}" alt="나도 요리사"></a>
+        </div>
+
+        <div class="latest">
+            <div>
+                <a href="/client/boards?section=croptalk&type=grow"><img th:src="@{/images/main_latest1_tit.png}"
+                                 alt="텃밭 가꾸기" /></a> <img th:src="@{/images/main_latest1_img.jpg}" alt="이미지" />
+                <table class="crop-story-board" border="0">
+                    <tr th:data-section="${story.boardSection}" th:data-type="${story.boardType}" th:data-idx="${story.boardIdx}" onclick="getBoard(event)" th:each="story : ${cropGrow}">
+                        <td th:data-idx="${story.boardIdx}">></td>
+                        <td th:text="${story.boardTitle}" ></td>
+                        <td th:text="${story.boardCreateAt}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <a href="/client/boards?section=croptalk&type=school"><img th:src="@{/images/main_latest2_tit.png}" alt="귀농학교" /></a>
+                <img th:src="@{/images/main_latest2_img.jpg}" alt="이미지" />
+                <table class="crop-story-board" border="0">
+                    <tr th:data-section="${story.boardSection}" th:data-type="${story.boardType}" th:data-idx="${story.boardIdx}" onclick="getBoard(event)" th:each="story : ${cropSchool}">
+                        <td th:data-idx="${story.boardIdx}">></td>
+                        <td th:text="${story.boardTitle}" ></td>
+                        <td th:text="${story.boardCreateAt}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <a href="/client/boards?section=croptalk&type=story"><img th:src="@{/images/main_latest3_tit.png}"
+                                 alt="농작물 이야기" /></a> <img th:src="@{/images/main_latest3_img.jpg}"
+                                                           alt="이미지" />
+                <table class="crop-story-board" border="0">
+                    <tr th:data-section="${story.boardSection}" th:data-type="${story.boardType}" th:data-idx="${story.boardIdx}" onclick="getBoard(event)" th:each="story : ${cropStory}">
+                        <td th:data-idx="${story.boardIdx}">></td>
+                        <td th:text="${story.boardTitle}" ></td>
+                        <td th:text="${story.boardCreateAt}"></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="info">
+            <div>
+                <img th:src="@{/images/main_sub2_cs_tit.png}" class="tit" alt="고객센터 안내" />
+                <div class="tel">
+                    <img th:src="@{/images/main_sub2_cs_img.png}" alt=""> <img
+                        th:src="@{/images/main_sub2_cs_txt.png}" alt="1666-777">
+                    <p class="time">
+                        평일: AM 09:00 ~ PM 06:00<br> 점심: PM 12:00 ~ PM 01:00<br>
+                        토, 일요일, 공휴일 휴무
+                    </p>
+                </div>
+                <div class="btns">
+                    <a href="/client/boards?section=community&type=qna"><img th:src="@{/images/main_sub2_cs_bt1.png}"
+                                     alt="1:1 고객문의"></a> <a href="/client/boards?section=community&type=faq"><img
+                        th:src="@{/images/main_sub2_cs_bt2.png}" alt="자주묻는질문"></a> <a
+                        href="/mypage/orders?section=mypage&type=order"><img th:src="@{/images/main_sub2_cs_bt3.png}" alt="배송조회"></a>
+                </div>
+            </div>
+            <div>
+                <img th:src="@{/images/main_sub2_account_tit.png}" class="tit"
+                     alt="계좌안내" />
+                <p class="account">
+                    기업은행 123-456789-01-01-012<br /> 국민은행 01-1234-56789<br /> 우리은행
+                    123-456789-01-01-012<br /> 하나은행 123-456789-01-01<br /> 예 금 주
+                    (주)팜스토리
+                </p>
+            </div>
+            <div class="notice">
+                <ul class="notice-header">
+                    <li><a href="/client/boards?section=community&type=notice">공지사항</a></li>
+                </ul>
+                <table class="notice-content" id="tabs">
+
+                    <tr th:data-section="${story.boardSection}" th:data-type="${story.boardType}" onclick="getBoard(event)" th:data-idx="${story.boardIdx}" th:each="story : ${notice}">
+                        <td th:text="${story.boardTitle}" ></td>
+                        <td th:text="${story.boardCreateAt}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="layout/footer.html"></footer>
+</div>
+<script>
+    function getBoard(event){
+        console.log(event.target.parentElement.dataset.idx)
+        console.log(event.target.parentElement.dataset.section)
+        console.log(event.target.parentElement.dataset.type)
+        let url="/client/boards?section="+event.target.parentElement.dataset.section+"&&type="+event.target.parentElement.dataset.type+"&&boardIdx="+event.target.parentElement.dataset.idx
+            // +"&&boardidx="+event.target.parentElement.dataset.idx
+        window.location.href=url
+    }
+</script>
+</body>
+</html>

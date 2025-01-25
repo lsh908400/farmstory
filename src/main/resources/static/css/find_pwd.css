@@ -1,0 +1,167 @@
+section {
+    width: 600px;
+    height: auto;
+    position: relative;
+    padding: 20px;
+    margin: 100px auto;
+}
+
+form > h6 {
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.section1 table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.section1 th,
+.section1 td {
+    border: 2px solid #5050501a;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.section1 th {
+    width: 100px;
+    text-align: left;
+    background-color: #f4f4f4;
+}
+
+.form__input {
+    width: calc(100% - 300px);
+    height: 24px;
+    background: #f7f7f7;
+    border: 1px solid #e4eaec;
+    box-sizing: border-box;
+    padding-left: 6px;
+    font-size: 14px;
+
+    &::placeholder {
+        color: #757575;
+        font-size: 12px;
+    }
+}
+
+.form__button {
+    height: 30px;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid #bebebe;
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.form__button:hover {
+    opacity: 0.6;
+}
+
+.description {
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 20px;
+}
+
+.action-button-group {
+    display: flex;
+    justify-content: end;
+    gap: 3px;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+}
+
+.action-button-group__button {
+    height: 35px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    border: 2px solid #bebebe;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    &:hover {
+        background-color: rgb(228, 228, 228);
+    }
+}
+
+.h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.border-div{
+    border-top: 2px solid black;
+}
+
+.description {
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+#error-email , #error-code, #error-verify, #error-pwd, #error-confirm{
+    color : red;
+    margin-left: 5px;
+    margin-top: 5px;
+    font-size: 10px;
+    display: none;
+}
+
+#success-email , #success-code, #success-pwd, #success-confirm{
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 10px;
+    display: none;
+}
+
+#timer {
+    display: none;
+}
+
+.section2 {
+    display: none;
+}
+
+.section1 {
+    /*display: none;*/
+}
+
+.section2 table {
+    border-collapse: collapse;
+
+}
+
+.section2 tr {
+    height: 50px;
+}
+
+.section2 td, .section2 th {
+    border: 3px solid #5050501a;
+}
+
+.section2 th {
+    width: 120px;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.section2 td {
+    width: 480px;
+    padding-left: 15px;
+}
+
+.inp1 {
+    width: 180px;
+    background-color: #f7f7f7;
+    outline: none;
+    height: 25px;
+    border: 1px solid #e4eaec;
+    padding-left: 8px;
+    box-sizing: border-box;
+}

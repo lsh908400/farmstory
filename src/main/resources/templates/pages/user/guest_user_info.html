@@ -1,0 +1,133 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>게스트 정보 변경</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+    <th:block th:fragment="script">
+        <script src="/js/axios.min.js"></script>
+    </th:block>
+</head>
+<body>
+<div class="container">
+    <header th:replace="layout/header.html"></header>
+    <main>
+        <div class="error-page">
+            <div class="page-flex">
+                <p class="font">소셜 로그인 회원은 <br> 닉네임 변경만 가능합니다.</p>
+                <div class="page-link">
+                    <button onclick="updateGuest()" class="first">변경하기>></button>
+                    <button onclick="deleteGuest()" >탈퇴하기</button>
+                    <a href="/">메인으로>></a>
+                </div>
+            </div>
+        </div>
+        <img class="error-img" th:src="@{/images/merong.png}">
+    </main>
+    <footer th:replace="layout/footer.html"></footer>
+
+</div>
+<script>
+    async function updateGuest() {
+        document.querySelector('.page-flex').innerHTML = `
+            <div>
+                <h1 class="h1">게스트 정보수정</h1>
+                <hr>
+                <div class="update-nickname">
+                    <div class="nick">닉네임</div>
+                    <input id="userNick" class="nick-inp" type="text" placeholder="변경할 닉네임을 입력해주세요.">
+                    <button onclick="checkNick()" class="updateBtn">중복체크</button>
+                </div>
+                <div id="error-nick"></div>
+                <div id="success-nick"></div>
+
+            </div>
+        `;
+        document.querySelector('.error-img').style.display = 'none';
+    }
+
+     async function deleteGuest(){
+        try {
+            const resp = await axios.delete("/auth/guest",{
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            })
+            if(resp.status===200){
+                window.location.href = "/"
+            }
+        } catch (e) {
+
+        }
+     }
+
+
+    async function checkNick(){
+        document.getElementById('error-nick').textContent = '';
+        document.getElementById('success-nick').textContent ='';
+        const userNick = document.getElementById('userNick').value;
+        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/g;
+        if (specialCharPattern.test(userNick)) {
+            document.getElementById('error-nick').textContent = "별명에 특수문자를 포함할 수 없습니다.";
+            document.getElementById('error-nick').style.display = "block";
+            nickValue = false;
+            return;
+        }
+        try {
+            const resp = await axios.get("/auth/check/nick",{
+                params : {
+                    "userNick" : document.getElementById('userNick').value
+                },
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            })
+            console.log(resp.data)
+            if(resp.data==="DBN"){
+                document.getElementById('error-nick').textContent = '중복된 닉네임 입니다.'
+                document.getElementById('error-nick').style.display = "block"
+                nickValue = false;
+            } else if (resp.data === "SU"){
+                document.getElementById('success-nick').innerHTML = `
+                    <button class="updateBtn" onclick="putGuestNick()">수정하기</button>
+                `
+                document.getElementById('success-nick').style.display = "block"
+                nickValue = true;
+            } else if(resp.data==="EUN"){
+                document.getElementById('error-nick').textContent = '공백은 허용되지 않습니다.'
+                document.getElementById('error-nick').style.display = "block"
+                nickValue = false;
+            } else if(resp.data === "EW"){
+                document.getElementById('error-nick').textContent = '사이의 공백은 허용되지 않습니다.'
+                document.getElementById('error-nick').style.display = "block"
+                nickValue = false;
+            }
+        } catch (e) {
+
+        }
+    }
+
+    async function putGuestNick(){
+        console.log(document.getElementById('userNick').value)
+        const submitData = {
+            "userNick" : document.getElementById('userNick').value
+        }
+
+        try {
+            const resp = await axios.put("/client/user",submitData,{
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            })
+            if(resp.data==="SU"){
+                window.location.href = "/"
+            }
+
+        } catch (e) {
+
+        }
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/find_pwd.css}">
+    <title>로그인</title>
+</head>
+<body>
+<div class="container">
+    <header th:replace="layout/header.html"></header>
+    <div class="box">
+        <main>
+            <section>
+                <h2 class="h2">비밀번호 찾기</h2>
+                <div class="border-div section1">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th>아이디</th>
+                            <td>
+                                <input
+                                        id="userId"
+                                        class="form__input"
+                                        type="text"
+                                        placeholder="아이디 입력"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td>
+                                <input
+                                        id="userEmail"
+                                        class="form__input"
+                                        type="email"
+                                        placeholder="이메일 입력"
+                                />
+                                <button class="form__button" type="button" onclick="sendEmail()">
+                                    인증번호 받기
+                                </button>
+                                <div id="error-email"></div>
+                                <div id="success-email"></div>
+                                <div style="margin-top: 6px"></div>
+                                <input
+                                        class="form__input"
+                                        type="password"
+                                        id="emailCode"
+                                        placeholder="인증번호 입력"
+                                />
+                                <button id="verifyBtn" class="form__button" onclick="verifyCode()" type="button">확인</button>
+                                <div id="error-code"></div>
+                                <div id="success-code"></div>
+                                <span id="timer">03:00</span>
+                                <div id="error-verify"></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="action-button-group">
+                        <a href="/view/login" class="action-button-group__button">취소</a>
+                        <button id="nextBtn" disabled onclick="getPwd()" class="action-button-group__button">다음</button>
+                    </div>
+                </div>
+                <div class="section2 border-div">
+
+
+                </div>
+
+                <p class="description">
+                    비밀번호를 찾고자 하는 아이디와 이메일을 입력해 주세요.<br />
+                    회원가입시 입력한 아이디와 이메일 주소가 같아야, 인증번호를 받을 수
+                    있습니다.<br />
+                    인증번호를 입력 후 확인 버튼을 누르세요.
+                </p>
+
+            </section>
+        </main>
+
+    </div>
+    <footer th:replace="layout/footer.html"></footer>
+</div>
+<script>
+    async function sendEmail(){
+
+        const email = document.getElementById('userEmail').value;
+        const emailPattern = /^(?=.{1,256}$)(?=.{1,64}@.{1,255}$)(?!.*\.\.)(?!.*\.$)(?!.*\.-)(?!.*-\.)(?!.*\..-)(?!.*\.-)(?!.*\.$)(?!.*\.@)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+        document.getElementById('error-email').textContent = "";
+        document.getElementById('error-email').style.display = "none";
+        document.getElementById('success-email').textContent = "";
+        document.getElementById('success-email').style.display = 'none'
+
+        // 이메일이 비어 있는지 확인
+        if (!email) {
+            document.getElementById('error-email').textContent = "이메일을 입력하세요.";
+            document.getElementById('error-email').style.display = "block";
+            emailValue = false;
+            return;
+        }
+
+        // 이메일 형식이 올바른지 확인
+        if (!emailPattern.test(email)) {
+            document.getElementById('error-email').textContent = "유효하지 않은 이메일 형식입니다.";
+            document.getElementById('error-email').style.display = "block";
+
+            emailValue = false;
+            return;
+        }
+
+        try {
+            const resp = await axios.get("/auth/send/email",{
+                params : {
+                    "userId" : document.getElementById('userId').value,
+                    "userEmail" : document.getElementById('userEmail').value
+                },
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            })
+            if(resp.data.result==='false'){
+                document.getElementById('error-email').textContent = "이름 또는 이메일을 잘못 입력하셧습니다.";
+                document.getElementById('error-email').style.display = "block";
+                emailValue = false;
+            } else {
+                document.getElementById('success-email').textContent = '인증코드를 입력해주세요.'
+                document.getElementById('success-email').style.display = "block";
+                document.getElementById('timer').style.display = 'inline'
+                handleEmailResponse(resp.data)
+                recieveCode = resp.data.result
+                startTimer(180 * 1000);
+                emailValue = true;
+                document.getElementById('sendBtn').disabled = true;
+            }
+            console.log(resp.data.result)
+
+        } catch (e) {
+
+        }
+
+    }
+
+    let expiryTime;
+    let timerInterval;
+
+    function startTimer(duration) {
+        const endTime = Date.now() + duration;
+        expiryTime = endTime;
+
+        function updateTimer() {
+            const now = Date.now();
+            const timeLeft = endTime - now;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.querySelector('#verifyBtn').disabled = true;
+                document.querySelector('#timer').textContent = '00:00';
+                return;
+            }
+
+            const minutes = Math.floor(timeLeft / 60000);
+            const seconds = Math.floor((timeLeft % 60000) / 1000);
+            document.querySelector('#timer').textContent =
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            timerInterval = setTimeout(updateTimer, 1000); // 1초마다 업데이트
+        }
+
+        updateTimer();
+    }
+
+    function handleEmailResponse(response) {
+        const expiryTime = response.expiryTime;
+        const currentTime = Date.now();
+        const timeLeft = expiryTime - currentTime;
+
+        // 인증 코드 입력 DIV 표시
+        // document.getElementById("success-email").style.display = 'block';
+
+        // 인증 버튼 비활성화 및 타이머 설정
+        const verifyButton = document.querySelector('#verifyBtn');
+        verifyButton.disabled = false;
+
+        // 타이머를 사용하여 버튼 비활성화
+        setTimeout(() => {
+            verifyButton.disabled = true;
+        }, timeLeft);
+    }
+
+    let recieveCode = 0;
+    let verifyValue = false;
+    function verifyCode(){
+        document.getElementById('error-verify').textContent = ''
+        document.getElementById('error-verify').style.display = 'none'
+        const sendCode = document.getElementById('emailCode').value
+        console.log(recieveCode)
+        if(recieveCode===sendCode){
+            document.getElementById('verifyBtn').innerText = '인증완료'
+            document.getElementById('verifyBtn').disabled = true;
+            document.getElementById('timer').style.display = 'none'
+            document.getElementById('userEmail').readOnly = true;
+            verifyValue = true;
+        } else {
+            document.getElementById('error-verify').textContent = '잘못된 인증코드 입니다.'
+            document.getElementById('error-verify').style.display = 'block'
+        }
+    }
+
+    document.getElementById('verifyBtn').addEventListener('click',()=>{
+        if(verifyValue){
+            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('nextBtn').dataset.id = document.getElementById('userId').value;
+        }
+        console.log(verifyValue)
+    })
+</script>
+<script>
+    function getPwd(){
+        const userId = document.getElementById('userId').value
+        document.querySelector('.section1').style.display = 'none';
+
+        document.querySelector('.h2').innerText = '비밀번호 변경'
+        document.querySelector('.description').innerHTML = `
+            비밀번호를 변경 해주세요. <br>
+            영문, 숫자, 특수문자를 사용하여 8자 이상 입력해 주세요.
+        `
+        document.querySelector('.section2').innerHTML = ``;
+        document.querySelector('.section2').innerHTML = `
+            <table>
+                <tr>
+                    <th>아이디</th>
+                    <td>${userId}</td>
+                </tr>
+                <tr>
+                    <th>새 비밀번호</th>
+                    <td>
+                        <input id="checkPwd" class="inp1" type="password" placeholder="새 비밀번호 입력">
+                        <div id="error-pwd"></div>
+                        <div id="success-pwd"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>새 비밀번호 확인</th>
+                    <td>
+                        <input id="checkConfirm" class="inp1" type="password" placeholder="새 비밀번호 확인">
+                        <div id="error-confirm"></div>
+                        <div id="success-confirm"></div>
+                    </td>
+                </tr>
+            </table>
+            <div class="action-button-group">
+                <a href="/view/login" class="action-button-group__button">취소</a>
+                <button id="verifyBtn2" onclick="updatePwd()" disabled class="action-button-group__button">변경하기</button>
+            </div>
+        `;
+        let confirmValue = false;
+        let pwdValue = false;
+        document.querySelector('.section2').style.display = 'block';
+        document.getElementById('checkPwd').addEventListener('input',()=> {
+            const password = document.getElementById('checkPwd').value;
+            const errorMsg = document.getElementById('error-pwd');
+            const successMsg = document.getElementById('success-pwd');
+            const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                errorMsg.textContent = "비밀번호는 8자리 이상, 영어, 숫자, 특수문자(@$!%*?&)를 포함해야 합니다.";
+                errorMsg.style.display = 'block';
+                pwdValue = false;
+                if (!confirmValue || !pwdValue) {
+                    document.getElementById('verifyBtn2').disabled = true;
+                }
+
+                return false;
+
+            } else {
+                errorMsg.style.display = 'none';
+                pwdValue = true;
+                if (confirmValue && pwdValue) {
+                    document.getElementById('verifyBtn2').disabled = false;
+                }
+            }
+
+
+        });
+        const confirm = document.getElementById('checkConfirm')
+        confirm.addEventListener('change',()=>{
+            const password = document.getElementById('checkPwd').value;
+            const confirmPassword = document.getElementById('checkConfirm').value;
+            const errorMsg = document.getElementById('error-confirm');
+            const successMsg = document.getElementById('success-confirm')
+            if (password !== confirmPassword) {
+                errorMsg.textContent = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+                errorMsg.style.display = 'block';
+                successMsg.style.display = 'none';
+                confirmValue = false;
+                if(!confirmValue||!pwdValue){
+                    document.getElementById('verifyBtn2').disabled = true;
+                }
+                return false;
+            } else {
+                successMsg.textContent = "비밀번호와 비밀번호 확인이 일치합니다."
+                successMsg.style.display = 'block'
+                errorMsg.style.display = 'none';
+                confirmValue = true;
+                if(confirmValue&&pwdValue){
+                    document.getElementById('verifyBtn2').disabled = false;
+                }
+            }
+
+        })
+    }
+    async function updatePwd(){
+        const submitData = {
+            "pwd" : document.getElementById('checkPwd').value,
+            "userId" : document.getElementById('userId').value
+        }
+
+        try {
+            const resp = await axios.put("/auth/pwd",submitData,{
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            })
+            if(resp.data==="SU"){
+                window.location.href = "/view/login";
+            } else {
+                document.getElementById('error-pwd').innerText = '동일한 비밀번호로는 변경할 수 없습니다.'
+                document.getElementById('error-pwd').style.display = 'block'
+                document.getElementById('success-pwd').style.display = 'none'
+            }
+        } catch (e) {
+            
+        }
+    }
+</script>
+</body>
+</html>
